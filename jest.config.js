@@ -8,7 +8,7 @@ module.exports = {
   roots: ["<rootDir>/src"],
 
   // Test patterns
-  testMatch: ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts"],
+  testMatch: ["**/__tests__/**/*.test.ts", "**/?(*.)+(spec|test).ts"],
 
   // Transform files
   transform: {
@@ -36,7 +36,7 @@ module.exports = {
   },
 
   // Module resolution
-  moduleNameMapping: {
+  moduleNameMapper: {
     "^globals$": "<rootDir>/src/globals",
     "^interfaces/(.*)$": "<rootDir>/src/interfaces/$1",
     "^utils/(.*)$": "<rootDir>/src/utils/$1",

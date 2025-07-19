@@ -6,7 +6,7 @@ export interface IFileDiscoveryService {
 }
 
 export class FileDiscoveryService implements IFileDiscoveryService {
-  private readonly supportedExtensions = [".js", ".mjs", ".cjs", ".ts", ".mts", ".cts"];
+  private readonly supportedExtensions = [".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx", ".mts", ".cts"];
 
   discoverFiles(paths: string[]): string[] {
     const allFiles = this.expandPathsToFiles(paths);
@@ -21,10 +21,11 @@ export class FileDiscoveryService implements IFileDiscoveryService {
   }
 
   private filterSupportedFiles(files: string[]): string[] {
-    return files.filter(file => this.isValidFile(file));
+    return files.filter(file => file != null && this.isValidFile(file));
   }
 
   private isValidFile(file: string): boolean {
+    if (!file || typeof file !== 'string') return false;
     const extension = PlatformTools.pathExtname(file);
     const isTypeDefinition = file.endsWith('.d.ts');
     
