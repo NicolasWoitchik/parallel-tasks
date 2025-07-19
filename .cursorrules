@@ -1,0 +1,171 @@
+# Cursor Rules - Parallel Tasks Framework
+
+## Projeto Overview
+Este é um **framework TypeScript** para execução paralela de tasks/verificações/rotinas usando decorators e boas práticas. O core está **funcionalmente completo** na v0.0.1.
+
+## Critical Project Intelligence
+
+### Arquitetura Chave
+- **ParallelTasks**: Classe principal que orquestra tudo
+- **@RegisterTask**: Decorator que usa `reflect-metadata` para registro
+- **Services Layer**: FileDiscovery, ClassLoader, ModuleImport
+- **Promise.allSettled**: Estratégia para execução robusta (erros isolados)
+- **Global Metadata Storage**: Singleton para tasks registradas
+
+### Padrões de Código Estabelecidos
+
+#### 1. Service Layer Pattern
+```typescript
+// Services em src/utils/ com responsabilidade única
+const fileDiscoveryService = new FileDiscoveryService();
+const results = fileDiscoveryService.discoverFiles(paths);
+```
+
+#### 2. Decorator Implementation
+```typescript  
+// Property decorator que registra no metadata storage global
+export function RegisterTask(taskName: string): PropertyDecorator {
+  return function (target: Object, propertyKey: string | symbol) {
+    getMetadataArgsStorage().tasks.push({ taskName, target: target[propertyKey] });
+  };
+}
+```
+
+#### 3. Generic Type Pattern
+```typescript
+// Sempre use generics para entrada/saída
+async execute<T, R>(taskName: string, context: T): Promise<R[]>
+```
+
+### Development Workflow Preferences
+
+#### TypeScript Configuration
+- **Experimental decorators**: SEMPRE habilitado
+- **ES2022 target**: Balanceio features vs compatibilidade  
+- **Strict mode**: Type safety máximo
+- **baseUrl: "./src"**: Imports limpos sem ../../../
+
+#### Error Handling Strategy
+- **Promise.allSettled**: NUNCA use Promise.all - precisamos isolar falhas
+- **Error return**: Erros retornados junto com sucessos, não thrown
+- **Task isolation**: Uma task que falha não afeta outras
+
+#### File Organization
+```
+src/
+├── decorators/     # @RegisterTask and similar
+├── interfaces/     # Type definitions
+├── utils/         # Service layer (discovery, loading, etc.)
+├── parallel-tasks.ts # Main facade class
+└── globals.ts     # Metadata storage access
+```
+
+### Code Quality Standards
+
+#### Import Preferences
+```typescript
+// Prefer absolute imports (baseUrl configured)
+import { getMetadataArgsStorage } from 'globals';
+// Not: import { getMetadataArgsStorage } from '../globals';
+```
+
+#### Interface Naming
+- `IParallelTasks` - Main contracts use I prefix
+- `IParallelTasksOptions` - Configuration interfaces  
+- `TasksValueMetadataArgs` - Internal metadata types (no I prefix)
+
+#### Error Messages
+- Be specific: `No tasks found for '${taskName}'`
+- Include context: variable values, expected vs actual
+- Help debugging: mention file paths, task counts, etc.
+
+### Testing Approach (Future)
+- **Jest**: Framework preference identified
+- **Unit tests per service**: FileDiscovery, ClassLoader, etc.
+- **Integration tests**: Full initialize() -> execute() flows
+- **Error case coverage**: Invalid paths, missing tasks, etc.
+
+### Performance Considerations
+- **Lazy loading**: Dynamic imports only when needed
+- **Metadata overhead**: ~100 bytes per registered task (acceptable)
+- **Glob optimization**: Use specific patterns, avoid overly broad **/*
+
+### Build & Distribution Strategy
+- **NPM target**: @wtk/parallel-tasks (organization package)
+- **CommonJS output**: Maximum Node.js compatibility
+- **TypeScript definitions**: Always include .d.ts files
+- **Source maps**: For production debugging
+
+## Development Priorities (Current)
+
+### Immediate (High Priority 🔴)
+1. **README.md**: Installation, quick start, API docs
+2. **Test Setup**: Jest configuration + basic test structure
+3. **JSDoc Comments**: Inline documentation for public APIs
+
+### Next Phase (Medium Priority 🟡)  
+1. **Build Scripts**: tsc compilation + npm preparation
+2. **Error Messages**: More descriptive validation errors
+3. **Configuration Validation**: Validate ParallelTasksOptions
+
+### Future (Low Priority 🟢)
+1. **Advanced Features**: Timeout, retry, dependencies
+2. **Performance Metrics**: Optional timing/monitoring
+3. **Framework Integrations**: Express, NestJS, etc.
+
+## Code Style Preferences
+
+### Naming Conventions
+- **Classes**: PascalCase - `ParallelTasks`, `FileDiscoveryService`
+- **Methods**: camelCase - `initialize()`, `discoverFiles()`
+- **Constants**: UPPER_SNAKE_CASE - `TASK_REGISTRY_SYMBOL`
+- **Task Names**: UPPER_CASE strings - `'USER_VALIDATION'`
+
+### Function Signatures
+```typescript
+// Prefer explicit return types for public APIs
+async execute<T, R>(taskName: string, context: T): Promise<R[]>
+
+// Internal functions can use inference
+private splitClassesAndStrings(input: MixedList<Function | string>) {
+```
+
+### Comments Style
+- **Public APIs**: Full JSDoc with @param, @returns
+- **Complex logic**: Inline comments explaining "why" not "what"
+- **Architecture decisions**: Reference design patterns used
+
+## Common Pitfalls to Avoid
+
+### ❌ Breaking Changes
+- Don't change `execute<T, R>` signature - it's the main API
+- Don't remove `@RegisterTask(taskName)` - core decorator
+- Don't change from Promise.allSettled - intentional error isolation
+
+### ❌ Performance Issues  
+- Don't use `require()` for dynamic loading - use `import()`
+- Don't load all files upfront - lazy load via glob discovery
+- Don't block on individual task failures - allSettled handles this
+
+### ❌ Type Safety Issues
+- Don't use `any` types - prefer `unknown` and type guards
+- Don't skip generic constraints - they help catch errors early
+- Don't ignore strictNullChecks - they're disabled for a reason but be careful
+
+## Memory Bank Usage
+
+### CRITICAL: Always Read Memory Bank First
+The Memory Bank in `memory-bank/` contains the complete project context:
+- `projectbrief.md` - Requirements and scope
+- `activeContext.md` - Current development status  
+- `progress.md` - What works vs. what's needed
+- `systemPatterns.md` - Architecture decisions
+- `techContext.md` - Technical setup
+
+### Update Memory Bank When:
+- Implementing new major features
+- Making architectural changes
+- Completing development phases
+- Discovering important patterns or constraints
+
+This project is ENTIRELY dependent on Memory Bank continuity between sessions. 

@@ -1,0 +1,40 @@
+# Source files
+src/
+sample/
+memory-bank/
+
+# Test files
+**/__tests__/
+**/*.test.ts
+**/*.spec.ts
+*.test.*
+*.spec.*
+coverage/
+.nyc_output/
+
+# Config files
+tsconfig*.json
+jest.config.js
+eslint.config.mjs
+.releaserc.json
+
+# Development files
+.github/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db
+
+# Package managers
+node_modules/
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# Build artifacts
+*.tsbuildinfo
+.eslintcache
+
+# Git
+.git/
+.gitignore 

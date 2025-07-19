@@ -1,0 +1,26 @@
+### macOS ###
+.DS_Store
+._*
+
+### Node ###
+npm-debug.log*
+build/
+dist/
+coverage/
+*.lcov
+.nyc_output/
+node_modules/
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+### Other IDEs ###
+.idea/
+*.iml
+
+memory-bank
