@@ -1,5 +1,5 @@
-import { getMetadataArgsStorage } from "../globals";
-import { TasksValueMetadataArgs } from "../interfaces/tasksValueMetadataArgs";
+import { getMetadataArgsStorage } from '../globals'
+import { TasksValueMetadataArgs } from '../interfaces/tasksValueMetadataArgs'
 
 /**
  * Register a task to be executed in parallel
@@ -7,10 +7,10 @@ import { TasksValueMetadataArgs } from "../interfaces/tasksValueMetadataArgs";
  * @returns A decorator function that can be used to register a task
  */
 export function RegisterTask(taskName: string): PropertyDecorator {
-  return function (target: Object, propertyKey: string | symbol) {
+  return function (target: object, propertyKey: string | symbol) {
     getMetadataArgsStorage().tasks.push({
       taskName: taskName,
       target: target[propertyKey],
-    } as TasksValueMetadataArgs);
-  };
+    } as TasksValueMetadataArgs)
+  }
 }

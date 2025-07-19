@@ -1,7 +1,7 @@
 // Jest setup file
-import 'reflect-metadata';
+import 'reflect-metadata'
 
 // Reset global state before each test
 beforeEach(() => {
-  jest.clearAllMocks();
-});
+  jest.clearAllMocks()
+})

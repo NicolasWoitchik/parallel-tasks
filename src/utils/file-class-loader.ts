@@ -1,4 +1,5 @@
-import { PlatformTools } from '../tools';
+import { UnknownFunction } from '../commons/unkown-function'
+import { PlatformTools } from '../tools'
 
 /**
  * Service interface for extracting class constructors from imported modules.
@@ -32,47 +33,47 @@ export interface IFileClassLoaderService {
    * // Returns: [UserValidationTask, EmailValidator, DataProcessor]
    * ```
    */
-  loadClasses(modules: any[]): Function[];
+  loadClasses(modules: unknown[]): UnknownFunction[]
 }
 
 export class FileClassLoaderService implements IFileClassLoaderService {
-  loadClasses(modules: any[]): Function[] {
-    return modules.reduce((allClasses, module) => {
-      const visited = new WeakSet();
-      return this.extractClassesFromModule(module, allClasses, visited);
-    }, [] as Function[]);
+  loadClasses(modules: unknown[]): UnknownFunction[] {
+    return modules.reduce((allClasses: UnknownFunction[], module) => {
+      const visited = new WeakSet()
+      return this.extractClassesFromModule(module, allClasses, visited)
+    }, [] as UnknownFunction[])
   }
 
-  private extractClassesFromModule(exported: any, loadedClasses: Function[], visited: WeakSet<object> = new WeakSet()): Function[] {
+  private extractClassesFromModule(exported: unknown, loadedClasses: UnknownFunction[], visited: WeakSet<object> = new WeakSet()): UnknownFunction[] {
     // Proteção contra referências circulares
     if (this.isObject(exported) && visited.has(exported)) {
-      return loadedClasses;
+      return loadedClasses
     }
 
     if (this.isFunction(exported)) {
-      loadedClasses.push(exported);
+      loadedClasses.push(exported as UnknownFunction)
     } else if (this.isArray(exported)) {
-      if (this.isObject(exported)) visited.add(exported);
-      exported.forEach(item => this.extractClassesFromModule(item, loadedClasses, visited));
+      if (this.isObject(exported)) visited.add(exported)
+      exported.forEach(item => this.extractClassesFromModule(item, loadedClasses, visited))
     } else if (this.isObject(exported)) {
-      visited.add(exported);
+      visited.add(exported)
       Object.values(exported).forEach(value => 
         this.extractClassesFromModule(value, loadedClasses, visited)
-      );
+      )
     }
 
-    return loadedClasses;
+    return loadedClasses
   }
 
-  private isFunction(value: any): value is Function {
-    return typeof value === "function";
+  private isFunction(value: unknown): value is UnknownFunction {
+    return typeof value === 'function'
   }
 
-  private isArray(value: any): value is any[] {
-    return Array.isArray(value);
+  private isArray(value: unknown): value is unknown[] {
+    return Array.isArray(value)
   }
 
-  private isObject(value: any): value is object {
-    return PlatformTools.isObject(value);
+  private isObject(value: unknown): value is object {
+    return PlatformTools.isObject(value)
   }
 } 

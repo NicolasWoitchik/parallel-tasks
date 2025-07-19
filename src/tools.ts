@@ -1,5 +1,5 @@
-import { MixedList } from "commons/mixed-list"
-import path from "path"
+import { MixedList } from 'commons/mixed-list'
+import path from 'path'
 
 export class PlatformTools {
   static getGlobalVariable(): typeof globalThis {
@@ -8,8 +8,8 @@ export class PlatformTools {
 
   static pathNormalize(pathStr: string): string {
     let normalizedPath = path.normalize(pathStr)
-    if (process.platform === "win32")
-      normalizedPath = normalizedPath.replace(/\\/g, "/")
+    if (process.platform === 'win32')
+      normalizedPath = normalizedPath.replace(/\\/g, '/')
     return normalizedPath
   }
 
@@ -30,22 +30,22 @@ export class PlatformTools {
     classesAndStrings: (string | T)[],
   ): [T[], string[]] {
     return [
-      classesAndStrings.filter((cls): cls is T => typeof cls !== "string"),
-      classesAndStrings.filter((str): str is string => typeof str === "string"),
+      classesAndStrings.filter((cls): cls is T => typeof cls !== 'string'),
+      classesAndStrings.filter((str): str is string => typeof str === 'string'),
     ]
   }
   /**
    * Converts MixedList<T> to strictly an array of its T items.
    */
   static mixedListToArray<T>(list: MixedList<T>): T[] {
-    if (list !== null && typeof list === "object") {
+    if (list !== null && typeof list === 'object') {
       return Object.keys(list).map((key) => (list as { [key: string]: T })[key])
     } else {
       return list as T[]
     }
   }
 
-  static isObject(val: any): val is object {
-    return val !== null && typeof val === "object"
+  static isObject(val: unknown): val is object {
+    return val !== null && typeof val === 'object'
   }
 }

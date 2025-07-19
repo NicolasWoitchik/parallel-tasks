@@ -55,5 +55,6 @@ export interface TasksValueMetadataArgs {
    * target: (context: any) => string
    * ```
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly target: (...args: any[]) => any;
 }
