@@ -33,7 +33,7 @@ export default tseslint.config([
       "@typescript-eslint/ban-ts-comment": "warn",
       "@typescript-eslint/no-empty-object-type": "warn",
       "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/no-reire-imports": "warn",
+      "@typescript-eslint/no-require-imports": "warn",
       "@typescript-eslint/no-this-alias": "warn",
       "@typescript-eslint/no-unnecessary-type-constraint": "warn",
       "@typescript-eslint/no-unsafe-declaration-merging": "warn",
