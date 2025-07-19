@@ -1,5 +1,5 @@
 {
-  "name": "@wtk/parallel-tasks",
+  "name": "@nicolaswoitchik/parallel-tasks",
   "version": "0.0.1",
   "description": "Um framework TypeScript para execução paralela de tasks/verificações/rotinas usando decorators e boas práticas",
   "keywords": [
