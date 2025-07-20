@@ -36,16 +36,16 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/WTK-Desenvolvimento/parallel-tasks.git"
+    "url": "https://github.com/NicolasWoitchik/parallel-tasks.git"
   },
   "bugs": {
-    "url": "https://github.com/WTK-Desenvolvimento/parallel-tasks/issues"
+    "url": "https://github.com/NicolasWoitchik/parallel-tasks/issues"
   },
-  "homepage": "https://github.com/WTK-Desenvolvimento/parallel-tasks#readme",
+  "homepage": "https://github.com/NicolasWoitchik/parallel-tasks#readme",
   "author": {
     "name": "Nicolas Woitchik",
     "email": "nicolas@woitchik.com.br",
-    "url": "https://github.com/nicolaswoitchik"
+    "url": "https://github.com/NicolasWoitchik"
   },
   "engines": {
     "node": ">=18.0.0",
