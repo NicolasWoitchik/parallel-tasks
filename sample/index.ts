@@ -1,20 +1,20 @@
-import path from 'path';
-import { ParallelTasks } from '../src/parallel-tasks';
-import { Runner } from './runner';
+import path from 'path'
+import { ParallelTasks } from '../src/parallel-tasks'
+import { Runner } from './runner'
 
 export async function main() {
   const parallelTasks = new ParallelTasks({
     tasks: [
       path.resolve(__dirname, './tasks/**.task.ts')
     ],
-  });
-  await parallelTasks.initialize();
-  
-  const runner = new Runner(parallelTasks);
+  })
+  await parallelTasks.initialize()
 
-  const result = await runner.execute();
+  const runner = new Runner(parallelTasks)
 
-  console.log(result);
+  const result = await runner.execute()
+
+  console.log(result)
 }
 
-main();
+main()
